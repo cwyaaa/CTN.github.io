@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>打卡日历与工作记录</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .main-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .input-section {
+      flex: 0 0 150px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    .calendar-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .record-section {
+      flex: 0 0 300px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-auto-rows: 50px;
+      gap: 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .month {
+      grid-column: span 7;
+      font-size: 18px;
+      text-align: center;
+      line-height: 50px;
+      background: #f0f0f0;
+    }
+    .calendar div.day-cell {
+      text-align: center;
+      line-height: 50px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .calendar div.day-cell.selected {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+    input, button, textarea {
+      padding: 5px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="input-section">
+      <h2>输入月份</h2>
+      <input type="number" id="monthInput" min="1" max="12" placeholder="1-12">
+      <br>
+      <button onclick="generateCalendars()">生成日历</button>
+    </div>
+    <div class="calendar-section">
+      <div class="calendar" id="calendar1"></div>
+      <div class="calendar" id="calendar2"></div>
+    </div>
+    <div class="record-section">
+      <h2>当前日期记录</h2>
+      <div id="recordDate">当前选择日期: 无</div>
+      <textarea id="noteInput" rows="3" readonly></textarea>
+      <br>
+      <h3>工作记录</h3>
+      <textarea id="recordInput" rows="5" placeholder="输入工作记录..."></textarea>
+      <br>
+      <button onclick="saveRecord()">保存记录</button>
+    </div>
+  </div>
+  <script>
+    let workRecords = JSON.parse(localStorage.getItem('workRecords')) || {};
+    let selectedDates = new Set(JSON.parse(localStorage.getItem('selectedDates')) || []);
+    let selectedDate = null;
+
+    function formatDate(year, month, day) {
+      return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    }
+
+    function createCalendar(year, month, calendarId) {
+      const calendarDiv = document.getElementById(calendarId);
+      calendarDiv.innerHTML = "";
+      const monthHeader = document.createElement('div');
+      monthHeader.className = 'month';
+      monthHeader.textContent = `${year}年${month + 1}月`;
+      calendarDiv.appendChild(monthHeader);
+      const firstDay = new Date(year, month, 1).getDay();
+      const lastDate = new Date(year, month + 1, 0).getDate();
+      for (let i = 0; i < firstDay; i++) {
+        calendarDiv.appendChild(document.createElement('div'));
+      }
+      for (let day = 1; day <= lastDate; day++) {
+        const dayCell = document.createElement('div');
+        dayCell.textContent = day;
+        dayCell.classList.add("day-cell");
+        const dateKey = formatDate(year, month, day);
+        if (selectedDates.has(dateKey)) {
+          dayCell.classList.add('selected');
+        }
+        dayCell.addEventListener('click', function() {
+          if (selectedDates.has(dateKey)) {
+            selectedDates.delete(dateKey);
+            dayCell.classList.remove('selected');
+          } else {
+            selectedDates.add(dateKey);
+            dayCell.classList.add('selected');
+          }
+          localStorage.setItem('selectedDates', JSON.stringify([...selectedDates]));
+          selectedDate = dateKey;
+          document.getElementById('recordDate').textContent = "当前选择日期: " + dateKey;
+          document.getElementById('recordInput').value = workRecords[dateKey] || "";
+          document.getElementById('noteInput').value = workRecords[dateKey] || "无记录";
+        });
+        calendarDiv.appendChild(dayCell);
+      }
+    }
+
+    function generateCalendars() {
+      const month = parseInt(document.getElementById("monthInput").value) - 1;
+      if (isNaN(month) || month < 0 || month > 11) {
+        alert("请输入有效的月份 (1-12)！");
+        return;
+      }
+      const currentYear = new Date().getFullYear();
+      createCalendar(currentYear, month, "calendar1");
+      createCalendar(currentYear, month + 1, "calendar2");
+      localStorage.setItem("selectedMonth", month + 1);
+    }
+
+    function saveRecord() {
+      if (!selectedDate) {
+        alert("请先选择一个日期！");
+        return;
+      }
+      workRecords[selectedDate] = document.getElementById('recordInput').value;
+      localStorage.setItem('workRecords', JSON.stringify(workRecords));
+      document.getElementById('noteInput').value = workRecords[selectedDate] || "无记录";
+      alert("记录已保存！");
+    }
+
+    window.onload = function() {
+      const savedMonth = localStorage.getItem("selectedMonth");
+      if (savedMonth) {
+        document.getElementById("monthInput").value = savedMonth;
+        generateCalendars();
+      }
+    };
+  </script>
+</body>
+</html>
