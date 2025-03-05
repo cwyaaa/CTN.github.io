@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日历与备注系统</title>
+  <style>
+    /* 基本样式 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* 主要内容区域 */
+    .content-container {
+      flex: 1;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-right: 1px solid #ccc;
+      border-radius: 25px; /* 加大圆角 */
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    /* 右侧选项卡 */
+    .tab-buttons {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #ccc;
+      background-color: #f0f0f0;
+      border-radius: 25px; /* 加大圆角 */
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .tab-buttons button {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      background-color: #4CAF50;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 25px; /* 加大圆角 */
+      margin: 5px 0; /* 间距 */
+      color: white; /* 字体颜色 */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .tab-buttons button:nth-child(2) {
+      background-color: #2196F3; /* 蓝色 */
+    }
+
+    .tab-buttons button:nth-child(3) {
+      background-color: #FF5722; /* 橙色 */
+    }
+
+    .tab-buttons button:hover {
+      opacity: 0.8;
+    }
+
+    .tab-buttons button.active {
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 隐藏未选中的内容 */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 日历部分 */
+    .calendar-section {
+      display: flex;
+    }
+
+    .calendar-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .calendar-header input {
+      padding: 5px;
+      font-size: 16px;
+      margin-right: 10px;
+      border-radius: 20px; /* 加大圆角 */
+      border: 2px solid #f0f0f0; /* 加粗边框 */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .calendar-header button {
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 20px; /* 加大圆角 */
+      border: 2px solid #f0f0f0; /* 加粗边框 */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 25px; /* 加大圆角 */
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .calendar div.month-label {
+      grid-column: span 7;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .calendar div.day-cell {
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 20px; /* 加大圆角 */
+      background-color: white; /* 初始状态：白色 */
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s; /* 添加动画效果 */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .calendar div.day-cell.green {
+      background-color: #4CAF50; /* 手动打卡后变为绿色 */
+      color: white;
+    }
+
+    .calendar div.day-cell.orange {
+      background-color: orange; /* 记录内容后变为橙色 */
+      color: white;
+    }
+
+    .calendar div.day-cell.glowing {
+      box-shadow: 0 0 10px yellow; /* 轮廓发光 */
+    }
+
+    .calendar div.day-cell.sticker {
+      background-color: lightblue; /* 计划打卡后淡蓝色 */
+      animation: stickerAnimation 0.5s ease-in-out; /* 添加计划打卡动画 */
+    }
+
+    @keyframes stickerAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    
+    /* 记事本 */
+    .notes-section {
+      flex: 0 0 300px;
+      border-left: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 25px; /* 加大圆角 */
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* 居中对齐 */
+    }
+
+    textarea {
+      width: calc(100% - 40px); /* 左右边距相等 */
+      height: 100px;
+      margin: 10px 0; /* 上下边距 */
+      border-radius: 20px; /* 加大圆角 */
+      border: 2px solid #f0f0f0; /* 加粗边框 */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .notes-section button {
+      width: calc(100% - 40px); /* 左右边距相等 */
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 20px; /* 加大圆角 */
+      border: 2px solid #f0f0f0; /* 加粗边框 */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .notes-section button:hover {
+      opacity: 0.8;
+    }
+
+    /* 备注摘要 */
+    .summary-section {
+      display: flex;
+      gap: 20px;
+    }
+
+    .summary-list {
+      flex: 0 0 250px;
+      border-right: 1px solid #ccc;
+      padding-right: 10px;
+      border-radius: 25px; /* 加大圆角 */
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .summary-content {
+      flex: 1;
+      padding-left: 10px;
+      border-radius: 25px; /* 加大圆角 */
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .summary-item {
+      cursor: pointer;
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+      border-radius: 20px; /* 加大圆角 */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+    }
+
+    .summary-item:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 主内容区 -->
+  <div class="content-container">
+    <!-- 日历与记事本 -->
+    <div id="calendarNotes" class="tab-content active">
+      <h2>日历与记事本</h2>
+      <div class="calendar-header">
+        <input type="month" id="calendarMonth">
+        <button onclick="loadCalendars()">时间打卡</button>
+        <button id="planPunchButton" onclick="planPunch()">计划打卡</button>
+      </div>
+      <div class="calendar-section">
+        <!-- 日历（两个月） -->
+        <div class="calendar-container">
+          <div id="calendar1" class="calendar">
+            <div class="month-label">1月</div>
+          </div>
+          <div id="calendar2" class="calendar">
+            <div class="month-label">2月</div>
+          </div>
+        </div>
+        <!-- 记事本 -->
+        <div class="notes-section">
+          <h3>记事本</h3>
+          <div id="recordDate">当前选择日期: 无</div>
+          <textarea id="recordInput" placeholder="输入当天的记事..."></textarea>
+          <button onclick="saveNote()">保存记事</button>
+          <h3>备注</h3>
+          <p id="notesText">没有记录。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 备注摘要 -->
+    <div id="summary" class="tab-content">
+      <h2>备注摘要</h2>
+      <div class="summary-section">
+        <!-- 备注列表 -->
+        <div class="summary-list">
+          <h3>备注列表</h3>
+          <div id="summaryItems"></div>
+        </div>
+        <!-- 备注内容 -->
+        <div class="summary-content">
+          <h3>备注详情</h3>
+          <textarea id="summaryDetail" rows="10" placeholder="输入备注详情..."></textarea>
+          <button onclick="saveSummary()">保存备注</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧选项卡 -->
+  <div class="tab-buttons">
+    <button class="active" onclick="openTab('calendarNotes')">日历与记事本</button>
+    <button onclick="openTab('summary')">备注摘要</button>
+  </div>
+
+  <script>
+    let notes = JSON.parse(localStorage.getItem('notes')) || {};
+    let plannedPunches = JSON.parse(localStorage.getItem('plannedPunches')) || [];
+    let currentMonth = localStorage.getItem('currentMonth') || '2023-01';
+
+    document.getElementById('calendarMonth').value = currentMonth;
+
+    document.addEventListener('keydown', function(event) {
+      if (event.ctrlKey && event.key === 'ArrowDown') {
+        switchTab();
+      }
+    });
+
+    function switchTab() {
+      const currentActive = document.querySelector('.tab-buttons button.active');
+      const tabs = Array.from(document.querySelectorAll('.tab-buttons button'));
+      let currentIndex = tabs.indexOf(currentActive);
+      currentIndex = (currentIndex + 1) % tabs.length;
+      openTab(tabs[currentIndex].getAttribute('onclick').match(/'(.*?)'/)[1]);
+    }
+
+    function openTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+
+      document.querySelectorAll('.tab-buttons button').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.tab-buttons button[onclick="openTab('${tabId}')"]`).classList.add('active');
+
+      if (tabId === 'summary') {
+        loadSummaries();
+      }
+    }
+
+    function loadCalendars() {
+      const monthInput = document.getElementById('calendarMonth').value;
+      const [year, month] = monthInput.split('-').map(Number);
+      currentMonth = monthInput;
+      localStorage.setItem('currentMonth', currentMonth);
+      createCalendar('calendar1', year, month);
+      createCalendar('calendar2', year, month + 1);
+    }
+
+    function createCalendar(calendarId, year, month) {
+      const calendarDiv = document.getElementById(calendarId);
+      calendarDiv.innerHTML = `<div class="month-label">${month}月</div>`;
+      const daysInMonth = new Date(year, month, 0).getDate();
+      for (let i = 1; i <= daysInMonth; i++) {
+        let cell = document.createElement('div');
+        cell.className = 'day-cell';
+        cell.textContent = i;
+        const date = `${calendarId}-${year}-${month}-${i}`;
+        updateCellState(cell, date);
+        
+        if (plannedPunches.includes(date)) {
+          cell.classList.add('sticker');
+        }
+
+        cell.onclick = function () {
+          handleCellClick(cell, date);
+        };
+        calendarDiv.appendChild(cell);
+      }
+    }
+
+    function handleCellClick(cell, date) {
+      let clickCount = parseInt(cell.getAttribute('data-click-count') || '0');
+      clickCount = (clickCount + 1) % 4;
+      cell.setAttribute('data-click-count', clickCount);
+
+      if (clickCount === 3) {
+        cell.classList.remove('glowing');
+        cell.classList.remove('orange');
+        cell.classList.remove('green');
+      } else if (cell.classList.contains('orange')) {
+        cell.classList.add('orange');
+      } else if (clickCount === 2 || cell.classList.contains('green')) {
+        cell.classList.add('glowing');
+      } else {
+        cell.classList.add('green');
+      }
+
+      document.querySelectorAll('.day-cell').forEach(c => c.classList.remove('selected'));
+      cell.classList.add('selected');
+      document.getElementById('recordDate').textContent = `当前选择日期: ${date}`;
+      document.getElementById('recordInput').value = notes[date] || '';
+      document.getElementById('notesText').textContent = notes[date] || '没有记录。';
+    }
+
+    function updateCellState(cell, date) {
+      if (notes[date]) {
+        cell.classList.add('orange');
+      } else {
+        cell.classList.remove('orange');
+        cell.classList.remove('glowing');
+        cell.classList.remove('green');
+      }
+    }
+
+    function saveNote() {
+      const selectedCell = document.querySelector('.day-cell.selected');
+      if (!selectedCell) {
+        alert('请选择一个日期');
+        return;
+      }
+      const date = selectedCell.textContent;
+      const calendarId = selectedCell.parentElement.id;
+      const monthInput = document.getElementById('calendarMonth').value;
+      const [year, month] = monthInput.split('-').map(Number);
+      const fullDate = `${calendarId}-${year}-${month}-${date}`;
+      const note = document.getElementById('recordInput').value;
+      notes[fullDate] = note;
+      localStorage.setItem('notes', JSON.stringify(notes));
+      document.getElementById('notesText').textContent = note;
+      selectedCell.classList.remove('green');
+      selectedCell.classList.add('orange');
+    }
+
+    function planPunch() {
+      const selectedCell = document.querySelector('.day-cell.selected');
+      if (!selectedCell) {
+        alert('请选择一个日期');
+        return;
+      }
+      const date = selectedCell.textContent;
+      const calendarId = selectedCell.parentElement.id;
+      const monthInput = document.getElementById('calendarMonth').value;
+      const [year, month] = monthInput.split('-').map(Number);
+      const fullDate = `${calendarId}-${year}-${month}-${date}`;
+
+      if (plannedPunches.includes(fullDate)) {
+        plannedPunches = plannedPunches.filter(d => d !== fullDate);
+        selectedCell.classList.remove('sticker');
+        selectedCell.classList.remove('green', 'orange', 'glowing');
+        selectedCell.setAttribute('data-click-count', '0');
+      } else {
+        plannedPunches.push(fullDate);
+        selectedCell.classList.add('sticker');
+      }
+      
+      localStorage.setItem('plannedPunches', JSON.stringify(plannedPunches));
+    }
+
+    function loadSummaries() {
+      const summaryItemsContainer = document.getElementById('summaryItems');
+      summaryItemsContainer.innerHTML = '';
+      for (const key in notes) {
+        const summaryItem = document.createElement('div');
+        summaryItem.className = 'summary-item';
+        summaryItem.textContent = key;
+        summaryItem.onclick = function () {
+          document.getElementById('summaryDetail').value = notes[key];
+        };
+        summaryItemsContainer.appendChild(summaryItem);
+      }
+    }
+
+    function saveSummary() {
+      const selectedSummaryItem = document.querySelector('.summary-item.selected');
+      if (!selectedSummaryItem) {
+        alert('请选择一个备注');
+        return;
+      }
+      const key = selectedSummaryItem.textContent;
+      const summaryDetail = document.getElementById('summaryDetail').value;
+      notes[key] = summaryDetail;
+      localStorage.setItem('notes', JSON.stringify(notes));
+    }
+
+    window.onload = function () {
+      loadCalendars();
+    };
+  </script>
+
+</body>
+</html>
