@@ -304,6 +304,7 @@
   <script>
     let notes = JSON.parse(localStorage.getItem('notes')) || {};
     let plannedPunches = JSON.parse(localStorage.getItem('plannedPunches')) || [];
+    let greenPunches = JSON.parse(localStorage.getItem('greenPunches')) || [];
     let currentMonth = localStorage.getItem('currentMonth') || '2023-01';
 
     document.getElementById('calendarMonth').value = currentMonth;
@@ -366,21 +367,15 @@
     }
 
     function handleCellClick(cell, date) {
-      let clickCount = parseInt(cell.getAttribute('data-click-count') || '0');
-      clickCount = (clickCount + 1) % 4;
-      cell.setAttribute('data-click-count', clickCount);
-
-      if (clickCount === 3) {
-        cell.classList.remove('glowing');
-        cell.classList.remove('orange');
+      if (cell.classList.contains('green')) {
         cell.classList.remove('green');
-      } else if (cell.classList.contains('orange')) {
-        cell.classList.add('orange');
-      } else if (clickCount === 2 || cell.classList.contains('green')) {
-        cell.classList.add('glowing');
+        greenPunches = greenPunches.filter(d => d !== date);
       } else {
         cell.classList.add('green');
+        greenPunches.push(date);
       }
+
+      localStorage.setItem('greenPunches', JSON.stringify(greenPunches));
 
       document.querySelectorAll('.day-cell').forEach(c => c.classList.remove('selected'));
       cell.classList.add('selected');
@@ -396,6 +391,10 @@
         cell.classList.remove('orange');
         cell.classList.remove('glowing');
         cell.classList.remove('green');
+      }
+
+      if (greenPunches.includes(date)) {
+        cell.classList.add('green');
       }
     }
 
@@ -435,12 +434,14 @@
         selectedCell.classList.remove('sticker');
         selectedCell.classList.remove('green', 'orange', 'glowing');
         selectedCell.setAttribute('data-click-count', '0');
+        greenPunches = greenPunches.filter(d => d !== fullDate);
       } else {
         plannedPunches.push(fullDate);
         selectedCell.classList.add('sticker');
       }
-      
+
       localStorage.setItem('plannedPunches', JSON.stringify(plannedPunches));
+      localStorage.setItem('greenPunches', JSON.stringify(greenPunches));
     }
 
     function loadSummaries() {
