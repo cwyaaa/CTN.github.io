@@ -20,8 +20,8 @@
       padding: 20px;
       background-color: #f9f9f9;
       border-right: 1px solid #ccc;
-      border-radius: 25px; /* 加大圆角 */
-      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 25px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     /* 右侧选项卡 */
@@ -31,8 +31,8 @@
       flex-direction: column;
       border-left: 1px solid #ccc;
       background-color: #f0f0f0;
-      border-radius: 25px; /* 加大圆角 */
-      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 25px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .tab-buttons button {
@@ -43,18 +43,18 @@
       background-color: #4CAF50;
       cursor: pointer;
       text-align: center;
-      border-radius: 25px; /* 加大圆角 */
-      margin: 5px 0; /* 间距 */
-      color: white; /* 字体颜色 */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 25px;
+      margin: 5px 0;
+      color: white;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .tab-buttons button:nth-child(2) {
-      background-color: #2196F3; /* 蓝色 */
+      background-color: #2196F3;
     }
 
     .tab-buttons button:nth-child(3) {
-      background-color: #FF5722; /* 橙色 */
+      background-color: #FF5722;
     }
 
     .tab-buttons button:hover {
@@ -98,18 +98,18 @@
       padding: 5px;
       font-size: 16px;
       margin-right: 10px;
-      border-radius: 20px; /* 加大圆角 */
-      border: 2px solid #f0f0f0; /* 加粗边框 */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 20px;
+      border: 2px solid #f0f0f0;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .calendar-header button {
       padding: 5px 10px;
       font-size: 16px;
       cursor: pointer;
-      border-radius: 20px; /* 加大圆角 */
-      border: 2px solid #f0f0f0; /* 加粗边框 */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 20px;
+      border: 2px solid #f0f0f0;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .calendar {
@@ -118,8 +118,8 @@
       gap: 5px;
       padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 25px; /* 加大圆角 */
-      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 25px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .calendar div.month-label {
@@ -135,30 +135,30 @@
       padding: 10px;
       border: 1px solid #ccc;
       cursor: pointer;
-      border-radius: 20px; /* 加大圆角 */
-      background-color: white; /* 初始状态：白色 */
+      border-radius: 20px;
+      background-color: white;
       position: relative;
-      transition: transform 0.3s, box-shadow 0.3s; /* 添加动画效果 */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .calendar div.day-cell.green {
-      background-color: #4CAF50; /* 手动打卡后变为绿色 */
+      background-color: #4CAF50;
       color: white;
     }
 
     .calendar div.day-cell.orange {
-      background-color: orange; /* 记录内容后变为橙色 */
+      background-color: orange;
       color: white;
     }
 
     .calendar div.day-cell.glowing {
-      box-shadow: 0 0 10px yellow; /* 轮廓发光 */
+      box-shadow: 0 0 10px yellow;
     }
 
     .calendar div.day-cell.sticker {
-      background-color: lightblue; /* 计划打卡后淡蓝色 */
-      animation: stickerAnimation 0.5s ease-in-out; /* 添加计划打卡动画 */
+      background-color: lightblue;
+      animation: stickerAnimation 0.5s ease-in-out;
     }
 
     @keyframes stickerAnimation {
@@ -172,37 +172,49 @@
       flex: 0 0 300px;
       border-left: 1px solid #ccc;
       padding: 10px;
-      border-radius: 25px; /* 加大圆角 */
-      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 25px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
-      align-items: center; /* 居中对齐 */
+      align-items: center;
     }
 
     textarea {
-      width: calc(100% - 40px); /* 左右边距相等 */
+      width: calc(100% - 40px);
       height: 100px;
-      margin: 10px 0; /* 上下边距 */
-      border-radius: 20px; /* 加大圆角 */
-      border: 2px solid #f0f0f0; /* 加粗边框 */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      margin: 10px 0;
+      border-radius: 20px;
+      border: 2px solid #f0f0f0;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .notes-section button {
-      width: calc(100% - 40px); /* 左右边距相等 */
+      width: calc(100% - 40px);
       padding: 10px;
       margin: 10px 0;
-      border-radius: 20px; /* 加大圆角 */
-      border: 2px solid #f0f0f0; /* 加粗边框 */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 20px;
       background-color: #4CAF50;
       color: white;
       cursor: pointer;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      border: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     .notes-section button:hover {
-      opacity: 0.8;
+      transform: scale(1.1);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .notes-section button > span {
+        position: relative;
+        z-index: 1;
     }
 
     /* 备注摘要 */
@@ -215,15 +227,15 @@
       flex: 0 0 250px;
       border-right: 1px solid #ccc;
       padding-right: 10px;
-      border-radius: 25px; /* 加大圆角 */
-      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 25px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .summary-content {
       flex: 1;
       padding-left: 10px;
-      border-radius: 25px; /* 加大圆角 */
-      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 25px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -233,13 +245,92 @@
       cursor: pointer;
       padding: 5px;
       border-bottom: 1px solid #ccc;
-      border-radius: 20px; /* 加大圆角 */
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 突出立体感 */
+      border-radius: 20px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .summary-item:hover {
       background-color: #ddd;
     }
+
+    /* Confetti styles */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .cheer-text {
+      position: absolute;
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff5733;
+      animation: fadeOut 1s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-50px); }
+    }
+
+    /* Clap animation */
+    .clap-container {
+      position: fixed;
+      bottom: -150px; /* 初始位置在屏幕外 */
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: bottom 0.5s ease-out, opacity 0.5s ease-out;
+      z-index: 1000; /* 确保鼓掌动画在最上层 */
+    }
+
+    /* 鼓掌图片 */
+    .clap-container img {
+      width: 150px;
+      height: auto;
+    }
+
+    /* 显示动画 */
+    .show-clap {
+      bottom: 50px; /* 上升到屏幕底部 */
+      opacity: 1;
+    }
+
+    .notes-section button .clap-icon {
+        width: 20px;
+        height: 20px;
+        margin-left: 5px; /* 调整图标与文字的间距 */
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Like animation */
+    .like {
+        position: absolute;
+        font-size: 30px;
+        opacity: 1;
+        transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+        z-index: 2;
+    }
+
   </style>
 </head>
 <body>
@@ -269,7 +360,10 @@
           <h3>记事本</h3>
           <div id="recordDate">当前选择日期: 无</div>
           <textarea id="recordInput" placeholder="输入当天的记事..."></textarea>
-          <button onclick="saveNote()">保存记事</button>
+          <button onclick="saveNote(event)" style="justify-content: center;">
+            <span>👍保存记事</span>
+            <img src="https://media.tenor.com/bLJWJYVd5XQAAAAi/clapping-applause.gif" alt="鼓掌" class="clap-icon">
+          </button>
           <h3>备注</h3>
           <p id="notesText">没有记录。</p>
         </div>
@@ -299,6 +393,10 @@
   <div class="tab-buttons">
     <button class="active" onclick="openTab('calendarNotes')">日历与记事本</button>
     <button onclick="openTab('summary')">备注摘要</button>
+  </div>
+
+  <div class="clap-container" id="clap">
+    <img src="https://media.tenor.com/bLJWJYVd5XQAAAAi/clapping-applause.gif" alt="鼓掌动画">
   </div>
 
   <script>
@@ -359,8 +457,10 @@
           cell.classList.add('sticker');
         }
 
+        // 每次点击日历上数字按钮时触发 confetti 效果
         cell.onclick = function () {
           handleCellClick(cell, date);
+          showConfetti();
         };
         calendarDiv.appendChild(cell);
       }
@@ -398,7 +498,7 @@
       }
     }
 
-    function saveNote() {
+    function saveNote(event) {
       const selectedCell = document.querySelector('.day-cell.selected');
       if (!selectedCell) {
         alert('请选择一个日期');
@@ -415,6 +515,47 @@
       document.getElementById('notesText').textContent = note;
       selectedCell.classList.remove('green');
       selectedCell.classList.add('orange');
+
+      let button = event.currentTarget;
+      let rect = button.getBoundingClientRect();
+      let buttonX = rect.left + rect.width / 2;
+      let buttonY = rect.top;
+
+      // 表情数组（随机出现不同的效果）
+      const emojis = ["👍", "❤️", "😀", "🎉", "👏"];
+
+      // 生成 2~4 个随机点赞
+      let count = Math.floor(Math.random() * 3) + 2;
+
+      for (let i = 0; i < count; i++) {
+          let like = document.createElement("div");
+          like.classList.add("like");
+          like.innerText = emojis[Math.floor(Math.random() * emojis.length)]; // 随机表情
+
+          // 设置初始位置
+          like.style.left = `${buttonX}px`;
+          like.style.top = `${buttonY}px`;
+          like.style.position = "fixed";
+
+          document.body.appendChild(like);
+
+          // 随机方向（角度和距离）
+          let randomX = Math.random() * 120 - 60; // 左右随机 -60px ~ 60px
+          let randomY = Math.random() * -120 - 80; // 上方随机 -80px ~ -200px
+          let randomRotate = Math.random() * 40 - 20; // 旋转角度 -20° ~ 20°
+          let randomScale = Math.random() * 0.5 + 1.2; // 1.2 ~ 1.7 倍放大
+
+          // 触发飞出动画（增加放大效果）
+          setTimeout(() => {
+              like.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg) scale(${randomScale})`;
+              like.style.opacity = "0";
+          }, 10);
+
+          // 动画结束后移除
+          setTimeout(() => {
+              like.remove();
+          }, 1000);
+      }
     }
 
     function planPunch() {
@@ -468,6 +609,50 @@
       const summaryDetail = document.getElementById('summaryDetail').value;
       notes[key] = summaryDetail;
       localStorage.setItem('notes', JSON.stringify(notes));
+    }
+
+    function showConfetti() {
+      const colors = ["#ff6b6b", "#ffcc5c", "#88d8b0", "#ff4081", "#6a89cc"];
+      const cheers = ["太棒了！", "干得好！", "真棒！", "厉害！", "完美！"];
+      // 增加 confetti 数量
+      const numConfetti = 30;
+
+      for (let i = 0; i < numConfetti; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        let x = (Math.random() - 0.5) * 300 + "px";
+        let y = (Math.random() - 0.5) * 300 + "px";
+
+        confetti.style.setProperty("--x", x);
+        confetti.style.setProperty("--y", y);
+
+        confetti.style.left = "50%";
+        confetti.style.top = "50%";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 1000);
+      }
+
+      let cheerText = document.createElement("div");
+      cheerText.classList.add("cheer-text");
+      cheerText.innerText = cheers[Math.floor(Math.random() * cheers.length)];
+      cheerText.style.left = "calc(50% - 40px)";
+      cheerText.style.top = "40%";
+      document.body.appendChild(cheerText);
+
+      setTimeout(() => cheerText.remove(), 1000);
+    }
+
+    function showClap() {
+      let clap = document.getElementById("clap");
+      clap.classList.add("show-clap"); // 添加显示动画
+
+      // 3秒后隐藏
+      setTimeout(() => {
+        clap.classList.remove("show-clap");
+      }, 3000);
     }
 
     window.onload = function () {
